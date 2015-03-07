@@ -1,0 +1,26 @@
+{
+  "name": "node-debug",
+  "version": "1.0.0",
+  "description": "test debug in node",
+  "main": "node-debug.js",
+  "scripts": {
+    "test": "gulp && DEBUG='*' node src/server/node-debug.js",
+    "test-es6": "DEBUG='*' node --harmony src/server/node-debug.js"
+  },
+  "author": "",
+  "dependencies": {
+    "debug": "^2.1.1"
+  },
+  "devDependencies": {
+    "backbone": "^1.1.2",
+    "browserify": "^5.0.4",
+    "d3": "^3.5.5",
+    "gulp": "^3.8.11",
+    "gulp-clean": "^0.3.1",
+    "gulp-es6-transpiler": "^1.0.1",
+    "gulp-nodemon": "^1.0.5",
+    "gulp-rename": "^1.2.0",
+    "gulp-watch": "^4.1.1",
+    "vinyl-transform": "^1.0.0"
+  }
+}

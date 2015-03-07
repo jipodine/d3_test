@@ -1,0 +1,10 @@
+{
+  "esnext": true,
+  "enforceall": true,
+  "laxcomma": true,
+  "laxbreak": true,
+  "nocomma": false,
+  "singleGroups" : false,
+  "node": true,
+  "browser": true
+}
