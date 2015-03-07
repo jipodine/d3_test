@@ -18,7 +18,7 @@ if (watchOthers && watchOthers.length) {
 }
 
 gulp.task('browserify', tasks, function() {
-  return gulp.src(['src/**/index.js', '!src/server/index.js'])
+  return gulp.src(['src/**/index.js'])
     .pipe(transform(function(filename) {
       return browserify(filename).bundle();
     }))
@@ -78,15 +78,4 @@ gulp.task('watch', function() {
   }
 });
 
-gulp.task('serve', ['transpile-app', 'transpile-lib'], function() {
-  return nodemon({
-    script: './src/server/index.js',
-    ext: 'js html',
-    env: {
-      'NODE_ENV': 'development'
-    },
-    nodeArgs: ['--harmony']
-  });
-});
-
-gulp.task('default', ['browserify', 'serve', 'watch']);
+gulp.task('default', ['browserify', 'watch']);
