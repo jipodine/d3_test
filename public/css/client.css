@@ -1,0 +1,27 @@
+body {
+    position: relative;
+    width: 960px;
+}
+
+.point {
+    fill: #999;
+    stroke: #fff;
+}
+
+.point.selected {
+    fill: red;
+    fill-opacity: 1;
+    stroke: brown;
+}
+
+.brush .extent {
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
+}
+
+button {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}

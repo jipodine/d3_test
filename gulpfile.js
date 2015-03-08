@@ -26,11 +26,11 @@ gulp.task('browserify', tasks, function() {
       path.basename = path.dirname;
       path.dirname = "";
     }))
-    .pipe(gulp.dest('public/javascripts'));
+    .pipe(gulp.dest('public/js'));
 });
 
 gulp.task('clean-js', function() {
-  return gulp.src('public/javascripts', {
+  return gulp.src('public/js', {
       read: false
     })
     .pipe(clean());
