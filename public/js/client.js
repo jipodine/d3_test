@@ -10090,40 +10090,13 @@ jip.init = function() {
 // };
 
 jip.createSketch = function () {
-  var control = {
-    clickMode: 'select'
-  };
-
-  // controls
-  var label = d3.select('body')
-        .append('p').attr('id', 'clickModeP')
-        .append('label')
-        .text('Click for new');
-
-  label.append('input')
-    .attr('type', 'checkbox')
-    .attr('checked', true)
-    .on('click', function (d,i) {
-      debug('check clicked: %s; %s', d, i);
-      d3.event.stopPropagation();
-    });
-
-
-
   // sketch
 
   var margin = { top: 20, bottom: 20, left: 10, right: 10};
   var width = 960 - margin.left - margin.right;
   var height = 200 - margin.top - margin.bottom;
 
-  var svg = d3.select("body").append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .on('click', function (d,i) {
-            debug('sketch clicked: %s; %s', d, i);
-          })
-       .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  // data
 
   var data = {
     domain: [[-10, 10], [-10, 10]],
@@ -10150,12 +10123,43 @@ jip.createSketch = function () {
         .domain(data.domain[1])
         .range([0, height]);
 
+
+  // controls
+  var control = {
+    clickMode: 'select'
+  };
+
+  var label = d3.select('body')
+        .append('p').attr('id', 'clickModeP')
+        .append('label')
+        .text('Click to select');
+
+  label.append('input')
+    .attr('type', 'checkbox')
+    .attr('checked', true)
+    .on('click', function (d,i) {
+      debug('check clicked: %s; %s', d, i);
+    });
+
+
+
+  var svg = d3.select("body").append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+       .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
   var brush = d3.svg.brush()
         .x(x)
         .y(y)
         // .extent(defaultExtent)
         .on("brush", brushed)
         .on("brushend", brushended);
+
+  svg.append("g")
+    .attr("class", "brush")
+    .call(brush)
+    .call(brush.event);
 
   var point = svg.selectAll(".point")
         .data(data.values)
@@ -10166,19 +10170,27 @@ jip.createSketch = function () {
         .attr("r", 4)
         .on('click', function (d,i) {
           debug('circle clicked: %s; %s', d, i);
+          switch(control.clickMode) {
+          case 'select':
+            // invert selection
+            var s = d3.select(this);
+            s.classed('selected', !s.classed('selected') );
+            break;
+          }
           d3.event.stopPropagation();
         });
 
-  svg.append("g")
-    .attr("class", "brush")
-    .call(brush)
-    .call(brush.event);
-
   function brushed() {
+    var point = svg.selectAll(".point");
     var extent = brush.extent();
+    debug("extent = %s", extent);
     point.each(function(d) { d.selected = false; });
+    if(brush.empty() ) {
+      debug('brush empty');
+    } else {
     search(quadtree, extent[0][0], extent[0][1], extent[1][0], extent[1][1]);
-    point.classed("selected", function(d) { return d.selected; });
+      point.classed("selected", function(d) { return d.selected; });
+    }
   }
 
   function brushended() {
