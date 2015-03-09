@@ -1,11 +1,10 @@
 {
   "name": "node-debug",
-  "version": "1.0.0",
-  "description": "test debug in node",
+  "version": "0.0.2",
+  "description": "d3 test",
   "main": "node-debug.js",
   "scripts": {
-    "test": "gulp && DEBUG='*' node src/server/node-debug.js",
-    "test-es6": "DEBUG='*' node --harmony src/server/node-debug.js"
+    "watch": "while true; do gulp ; sleep 2; done"
   },
   "author": "",
   "dependencies": {
